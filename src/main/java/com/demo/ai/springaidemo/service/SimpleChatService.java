@@ -24,11 +24,19 @@ public class SimpleChatService {
 
     // immutable data holders. have getter methods
     public record ActorFilms(String actor, List<String> movies) {}
-
+    public record ActorFilmsList(List<ActorFilms> actorFilms) {}
     public ActorFilms getActorFilms(String actor) {
         return chatClient.prompt()
                 .user("Generate the filmography for a random actor")
                 .call()
                 .entity(ActorFilms.class);
+    }
+
+    public ActorFilmsList getActorFilmsList(String... actors) {
+        String allActors = String.join(",",actors);
+        return chatClient.prompt()
+                .user("Generate the filmography for " + allActors)
+                .call()
+                .entity(ActorFilmsList.class);
     }
 }

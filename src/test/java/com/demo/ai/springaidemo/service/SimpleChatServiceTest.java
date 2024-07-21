@@ -24,4 +24,10 @@ class SimpleChatServiceTest {
         SimpleChatService.ActorFilms actorFilms = service.getActorFilms("Tom Hanks");
         System.out.println(actorFilms);
     }
+
+    @Test
+    void testGetActorFilmsList() {
+        SimpleChatService.ActorFilmsList actorFilms = service.getActorFilmsList("Tom Hanks","Margot Robbie");
+        System.out.println(actorFilms);
+    }
 }
