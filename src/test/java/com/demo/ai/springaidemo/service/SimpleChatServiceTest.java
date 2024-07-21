@@ -30,4 +30,11 @@ class SimpleChatServiceTest {
         SimpleChatService.ActorFilmsList actorFilms = service.getActorFilmsList("Tom Hanks","Margot Robbie");
         System.out.println(actorFilms);
     }
+
+    @Test
+    void testGetActorFilmsListAsync() {
+        service.getActorFilmsListAsync("Tom Hanks","Margot Robbie")
+                .doOnNext(System.out::println)
+                .blockLast();
+    }
 }

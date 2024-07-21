@@ -3,6 +3,7 @@ package com.demo.ai.springaidemo.service;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.stereotype.Service;
+import reactor.core.publisher.Flux;
 
 import java.util.List;
 
@@ -38,5 +39,13 @@ public class SimpleChatService {
                 .user("Generate the filmography for " + allActors)
                 .call()
                 .entity(ActorFilmsList.class);
+    }
+
+    public Flux<String> getActorFilmsListAsync(String... actors) {
+        String allActors = String.join(",",actors);
+        return chatClient.prompt()
+                .user("Generate the filmography for " + allActors)
+                .stream()
+                .content();
     }
 }
