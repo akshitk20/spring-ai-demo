@@ -4,6 +4,8 @@ import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
 public class SimpleChatService {
 
@@ -18,5 +20,15 @@ public class SimpleChatService {
                 .user(message) // this is question
                 .call()
                 .content(); // this is the answer
+    }
+
+    // immutable data holders. have getter methods
+    public record ActorFilms(String actor, List<String> movies) {}
+
+    public ActorFilms getActorFilms(String actor) {
+        return chatClient.prompt()
+                .user("Generate the filmography for a random actor")
+                .call()
+                .entity(ActorFilms.class);
     }
 }

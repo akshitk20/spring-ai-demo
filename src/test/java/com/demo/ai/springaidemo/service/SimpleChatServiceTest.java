@@ -19,4 +19,9 @@ class SimpleChatServiceTest {
         assertTrue(!response.isEmpty());
     }
 
+    @Test
+    void testGetActorFilms() {
+        SimpleChatService.ActorFilms actorFilms = service.getActorFilms("Tom Hanks");
+        System.out.println(actorFilms);
+    }
 }
