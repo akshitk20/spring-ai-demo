@@ -7,6 +7,8 @@ import org.springframework.ai.chat.model.ChatModel;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.Resource;
 import org.springframework.stereotype.Service;
+import org.springframework.util.MimeType;
+import org.springframework.util.MimeTypeUtils;
 import reactor.core.publisher.Flux;
 
 import java.util.List;
@@ -59,6 +61,14 @@ public class SimpleChatService {
         return chatClient.prompt()
                 .user("Generate the filmography for " + allActors)
                 .stream()
+                .content();
+    }
+
+    public String vision(String message, Resource image) {
+        return chatClient.prompt()
+                .user(u -> u.text(message)
+                        .media(MimeTypeUtils.IMAGE_PNG, image))
+                .call()
                 .content();
     }
 }
