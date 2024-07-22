@@ -14,7 +14,10 @@ class SimpleChatServiceTest {
 
     @Test
     void testChatClient() {
-        String response = service.chat("Tell me about spring AI project");
+        String prompt = """
+                    Write a cover letter for Java Developer position in AI and machine learning
+                """;
+        String response = service.chat(prompt);
         assertNotNull(response);
         assertTrue(!response.isEmpty());
     }
@@ -36,5 +39,13 @@ class SimpleChatServiceTest {
         service.getActorFilmsListAsync("Tom Hanks","Margot Robbie")
                 .doOnNext(System.out::println)
                 .blockLast();
+    }
+
+    @Test
+    void testChat() {
+        String response = service.chat("Hi I am slim shady");
+        System.out.println(response);
+        response = service.chat("Whats my name?");
+        System.out.println(response);
     }
 }
