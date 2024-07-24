@@ -17,7 +17,7 @@ class SimpleChatServiceTest {
     @Test
     void testChatClient() {
         String prompt = """
-                    Write a cover letter for Java Developer position in AI and machine learning
+                    Tell one line about AI
                 """;
         String response = service.chat(prompt);
         assertNotNull(response);
