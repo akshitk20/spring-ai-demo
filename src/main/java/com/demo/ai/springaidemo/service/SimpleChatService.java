@@ -1,5 +1,6 @@
 package com.demo.ai.springaidemo.service;
 
+import com.demo.ai.springaidemo.function.ExchangeRateFunction;
 import org.springframework.ai.chat.client.ChatClient;
 import org.springframework.ai.chat.client.advisor.PromptChatMemoryAdvisor;
 import org.springframework.ai.chat.memory.InMemoryChatMemory;
@@ -17,13 +18,16 @@ public class SimpleChatService {
 
     private final ChatClient chatClient;
 
+    private final ExchangeRateFunction exchangeRateFunction;
+
     @Value("classpath:/prompts/system-message.st")
     private Resource systemResource;
 
-    public SimpleChatService(ChatModel chatModel) {
+    public SimpleChatService(ChatModel chatModel, ExchangeRateFunction exchangeRateFunction) {
         this.chatClient = ChatClient.builder(chatModel)
                 .defaultAdvisors(new PromptChatMemoryAdvisor(new InMemoryChatMemory())) // advisor -> intercepts the request and modifies it. this is used to preserve the state of request
                 .build();
+        this.exchangeRateFunction = exchangeRateFunction;
     }
 
     public String chat(String message) {
@@ -69,5 +73,13 @@ public class SimpleChatService {
                         .media(MimeTypeUtils.IMAGE_PNG, image))
                 .call()
                 .content();
+    }
+
+    public String chatWithContext(String message) {
+        return chatClient.prompt()
+                .function("exchangeRateFunction", "calculates exchange rate for a currency", exchangeRateFunction)
+                .user(message) // this is question
+                .call()
+                .content(); // this is the answer
     }
 }
